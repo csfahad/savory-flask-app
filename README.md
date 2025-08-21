@@ -62,27 +62,29 @@ A comprehensive web-based restaurant management system built with HTML, CSS, Jav
 
 ### Local Development Setup
 
-1. **Clone the repository**
+1. **Fork this repository**
+
+2. **Clone your forked repository**
 
     ```bash
-    git clone https://github.com/yourusername/restaurant-management-system.git
-    cd restaurant-management-system
+    git clone https://github.com/yourusername/savory-flask-app.git
+    cd savory-flask-app
     ```
 
-2. **Create virtual environment**
+3. **Create virtual environment**
 
     ```bash
     python -m venv venv
     source venv/bin/activate  # On Windows: venv\Scripts\activate
     ```
 
-3. **Install dependencies**
+4. **Install dependencies**
 
     ```bash
     pip install -r requirements.txt
     ```
 
-4. **Set up environment variables**
+5. **Set up environment variables**
    Create a `.env` file in the root directory:
 
     ```env
@@ -91,26 +93,26 @@ A comprehensive web-based restaurant management system built with HTML, CSS, Jav
     JWT_SECRET_KEY=your-jwt-secret-key
     ```
 
-5. **Start MongoDB**
+6. **Start MongoDB**
    Make sure MongoDB is running on your system:
 
     ```bash
     mongod
     ```
 
-6. **Initialize sample data**
+7. **Initialize sample data**
 
     ```bash
     python init_data.py
     ```
 
-7. **Run the application**
+8. **Run the application**
 
     ```bash
     python app.py
     ```
 
-8. **Access the application**
+9. **Access the application**
    Open your browser and navigate to `http://localhost:5000`
 
 ## Project Structure
