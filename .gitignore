@@ -1,0 +1,53 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+ENV/
+.venv/
+.python-version
+.env
+.env.local
+.env.development
+.env.production
+
+# Flask-related files
+instance/
+*.db
+*.sqlite3
+
+# Pytest / testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# VSCode settings (optional)
+.vscode/
+
+# MacOS files
+.DS_Store
+
+# Logs
+*.log
+
+# Environment variable files (keep secrets out of git)
+.env
+.env.*
+
+# Jupyter Notebooks (if applicable)
+.ipynb_checkpoints/
+
+# Migrations (optional depending on use case)
+migrations/
+
+# mypy / other linters
+.mypy_cache/
+.dmypy.json
+.pyre/
+
+# Other IDEs / tools
+.idea/
+.bolt

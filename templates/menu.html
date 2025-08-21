@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Menu - Savory Restaurant{% endblock %}
+
+{% block content %}
+    <!-- Menu Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h1>Our Menu</h1>
+            <p>Discover our carefully crafted dishes made with fresh ingredients and culinary expertise</p>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="menu-section">
+        <div class="container">
+            <!-- Search and Filter -->
+            <div class="menu-controls">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Search menu items...">
+                </div>
+                
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-category="all">All</button>
+                    <button class="filter-btn" data-category="starters">Starters</button>
+                    <button class="filter-btn" data-category="main-course">Main Course</button>
+                    <button class="filter-btn" data-category="desserts">Desserts</button>
+                    <button class="filter-btn" data-category="beverages">Beverages</button>
+                </div>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div class="loading-spinner" id="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading menu items...</p>
+            </div>
+
+            <!-- Menu Items Grid -->
+            <div class="menu-grid" id="menu-grid">
+                <!-- Menu items will be loaded here by JavaScript -->
+            </div>
+
+            <!-- No Results Message -->
+            <div class="no-results" id="no-results" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h3>No menu items found</h3>
+                <p>Try adjusting your search or filter criteria</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add to Cart Modal -->
+    <div class="modal" id="add-to-cart-modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-body">
+                <i class="fas fa-check-circle"></i>
+                <h3>Added to Cart!</h3>
+                <p>Item has been successfully added to your cart.</p>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" onclick="closeModal()">Continue Shopping</button>
+                    <a href="{{ url_for('cart') }}" class="btn btn-primary">View Cart</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/menu.js') }}"></script>
+{% endblock %}

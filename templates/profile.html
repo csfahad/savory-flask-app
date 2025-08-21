@@ -1,0 +1,238 @@
+{% extends "base.html" %} {% block title %}Profile - Savory Restaurant{%
+endblock %} {% block content %}
+<!-- Page Hero -->
+<section class="page-hero">
+    <div class="container">
+        <h1>My Profile</h1>
+        <p>Manage your account information and preferences</p>
+    </div>
+</section>
+
+<!-- Profile Section -->
+<section class="profile-section">
+    <div class="container">
+        <div class="profile-content">
+            <div class="profile-sidebar">
+                <div class="profile-card">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3 id="profile-name">Loading...</h3>
+                    <p id="profile-email">Loading...</p>
+                    <span class="profile-role" id="profile-role">Customer</span>
+                </div>
+
+                <nav class="profile-nav">
+                    <a
+                        href="#personal-info"
+                        class="profile-nav-link active"
+                        data-tab="personal-info"
+                    >
+                        <i class="fas fa-user"></i>
+                        Personal Information
+                    </a>
+                    <a
+                        href="#order-history"
+                        class="profile-nav-link"
+                        data-tab="order-history"
+                    >
+                        <i class="fas fa-shopping-bag"></i>
+                        Order History
+                    </a>
+                    <a
+                        href="#reservations-history"
+                        class="profile-nav-link"
+                        data-tab="reservations-history"
+                    >
+                        <i class="fas fa-calendar"></i>
+                        My Reservations
+                    </a>
+                    <a
+                        href="#change-password"
+                        class="profile-nav-link"
+                        data-tab="change-password"
+                    >
+                        <i class="fas fa-lock"></i>
+                        Change Password
+                    </a>
+                </nav>
+            </div>
+
+            <div class="profile-main">
+                <!-- Personal Information Tab -->
+                <div class="profile-tab active" id="personal-info">
+                    <div class="tab-header">
+                        <h2>Personal Information</h2>
+                        <p>Update your personal details</p>
+                    </div>
+
+                    <form id="profile-form" class="profile-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Full Name *</label>
+                                <input type="text" id="name" required />
+                                <div
+                                    class="error-message"
+                                    id="name-error"
+                                ></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" disabled />
+                                <small>Email cannot be changed</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" />
+                            <div class="error-message" id="phone-error"></div>
+                        </div>
+
+                        <div
+                            class="error-message"
+                            id="profile-form-error"
+                        ></div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                            id="update-profile-btn"
+                        >
+                            <span id="update-text">Update Profile</span>
+                            <i
+                                class="fas fa-spinner fa-spin"
+                                id="update-spinner"
+                                style="display: none"
+                            ></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Order History Tab -->
+                <div class="profile-tab" id="order-history">
+                    <div class="tab-header">
+                        <h2>Order History</h2>
+                        <p>View your past orders</p>
+                    </div>
+
+                    <div class="orders-container" id="orders-container">
+                        <div class="loading-spinner">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Loading orders...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reservations History Tab -->
+                <div class="profile-tab" id="reservations-history">
+                    <div class="tab-header">
+                        <h2>My Reservations</h2>
+                        <p>View your table reservations</p>
+                    </div>
+
+                    <div
+                        class="reservations-container"
+                        id="reservations-container"
+                    >
+                        <div class="loading-spinner">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Loading reservations...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Change Password Tab -->
+                <div class="profile-tab" id="change-password">
+                    <div class="tab-header">
+                        <h2>Change Password</h2>
+                        <p>Update your account password</p>
+                    </div>
+
+                    <form id="password-form" class="profile-form">
+                        <div class="form-group">
+                            <label for="current-password"
+                                >Current Password *</label
+                            >
+                            <div class="password-input">
+                                <input
+                                    type="password"
+                                    id="current-password"
+                                    required
+                                />
+                                <button type="button" class="password-toggle">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div
+                                class="error-message"
+                                id="current-password-error"
+                            ></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="new-password">New Password *</label>
+                            <div class="password-input">
+                                <input
+                                    type="password"
+                                    id="new-password"
+                                    required
+                                    minlength="6"
+                                />
+                                <button type="button" class="password-toggle">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div
+                                class="error-message"
+                                id="new-password-error"
+                            ></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirm-new-password"
+                                >Confirm New Password *</label
+                            >
+                            <div class="password-input">
+                                <input
+                                    type="password"
+                                    id="confirm-new-password"
+                                    required
+                                />
+                                <button type="button" class="password-toggle">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div
+                                class="error-message"
+                                id="confirm-new-password-error"
+                            ></div>
+                        </div>
+
+                        <div
+                            class="error-message"
+                            id="password-form-error"
+                        ></div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                            id="change-password-btn"
+                        >
+                            <span id="password-text">Change Password</span>
+                            <i
+                                class="fas fa-spinner fa-spin"
+                                id="password-spinner"
+                                style="display: none"
+                            ></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} {% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+{% endblock %}

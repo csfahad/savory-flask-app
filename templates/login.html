@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Savory Restaurant{% endblock %}
+
+{% block body_class %}class="auth-page"{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-header">
+        <a href="{{ url_for('index') }}" class="auth-logo">
+            <i class="fas fa-utensils"></i>
+            <span>Savory</span>
+        </a>
+    </div>
+
+    <div class="auth-form-container">
+        <div class="auth-form">
+            <h2>Sign in to Savory</h2>
+            <p>Don't have an account? <a href="{{ url_for('register_page') }}">Sign up</a></p>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" id="email" required>
+                    <div class="error-message" id="email-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-input">
+                        <input type="password" id="password" required>
+                        <button type="button" class="password-toggle" id="password-toggle">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="error-message" id="password-error"></div>
+                </div>
+
+                <div class="error-message" id="form-error"></div>
+
+                <button type="submit" class="btn btn-primary btn-full" id="login-btn">
+                    <span id="login-text">Sign in</span>
+                    <i class="fas fa-spinner fa-spin" id="login-spinner" style="display: none;"></i>
+                </button>
+            </form>
+
+            <!-- Demo Credentials -->
+            <div class="demo-credentials">
+                <h4>Demo Credentials:</h4>
+                <p><strong>Admin:</strong> admin@savory.com / admin123</p>
+                <p><strong>Customer:</strong> customer@savory.com / customer123</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('login-form');
+    const passwordToggle = document.getElementById('password-toggle');
+    const passwordInput = document.getElementById('password');
+
+    // Password toggle functionality
+    passwordToggle.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        const icon = passwordToggle.querySelector('i');
+        icon.classList.toggle('fa-eye');
+        icon.classList.toggle('fa-eye-slash');
+    });
+
+    // Handle form submission
+    loginForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        // Clear previous errors
+        clearErrors();
+        
+        // Basic validation
+        if (!email || !password) {
+            showError('form-error', 'Please fill in all fields');
+            return;
+        }
+        
+        // Show loading state
+        setLoading(true);
+        
+        try {
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                // Store auth data
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                
+                // Show success message
+                showSuccess('Login successful! Redirecting...');
+                
+                // Redirect based on role
+                setTimeout(() => {
+                    if (data.user.role === 'admin') {
+                        window.location.href = '/admin';
+                    } else {
+                        window.location.href = '/';
+                    }
+                }, 1500);
+            } else {
+                showError('form-error', data.error || 'Login failed');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            showError('form-error', 'Network error. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    });
+    
+    function clearErrors() {
+        const errorElements = document.querySelectorAll('.error-message');
+        errorElements.forEach(el => el.textContent = '');
+    }
+    
+    function showError(elementId, message) {
+        document.getElementById(elementId).textContent = message;
+    }
+    
+    function showSuccess(message) {
+        const formError = document.getElementById('form-error');
+        formError.textContent = message;
+        formError.style.color = 'var(--success-color)';
+    }
+    
+    function setLoading(loading) {
+        const loginBtn = document.getElementById('login-btn');
+        const loginText = document.getElementById('login-text');
+        const loginSpinner = document.getElementById('login-spinner');
+        
+        loginBtn.disabled = loading;
+        loginText.style.display = loading ? 'none' : 'inline';
+        loginSpinner.style.display = loading ? 'inline-block' : 'none';
+    }
+});
+</script>
+{% endblock %}

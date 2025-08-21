@@ -1,0 +1,190 @@
+{% extends "base.html" %} {% block title %}Reservations - Savory Restaurant{%
+endblock %} {% block content %}
+<!-- Page Hero -->
+<section class="page-hero">
+    <div class="container">
+        <h1>Table Reservations</h1>
+        <p>Book your table for an unforgettable dining experience</p>
+    </div>
+</section>
+
+<!-- Reservation Form Section -->
+<section class="reservation-section">
+    <div class="container">
+        <div class="reservation-content">
+            <div class="reservation-form-container">
+                <div class="form-card">
+                    <h2>Make a Reservation</h2>
+                    <form id="reservation-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="reservation-date">Date *</label>
+                                <input
+                                    type="date"
+                                    id="reservation-date"
+                                    required
+                                />
+                                <div
+                                    class="error-message"
+                                    id="date-error"
+                                ></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="reservation-time">Time *</label>
+                                <select id="reservation-time" required>
+                                    <option value="">Select Time</option>
+                                    <option value="11:00">11:00 AM</option>
+                                    <option value="11:30">11:30 AM</option>
+                                    <option value="12:00">12:00 PM</option>
+                                    <option value="12:30">12:30 PM</option>
+                                    <option value="13:00">1:00 PM</option>
+                                    <option value="13:30">1:30 PM</option>
+                                    <option value="14:00">2:00 PM</option>
+                                    <option value="14:30">2:30 PM</option>
+                                    <option value="18:00">6:00 PM</option>
+                                    <option value="18:30">6:30 PM</option>
+                                    <option value="19:00">7:00 PM</option>
+                                    <option value="19:30">7:30 PM</option>
+                                    <option value="20:00">8:00 PM</option>
+                                    <option value="20:30">8:30 PM</option>
+                                    <option value="21:00">9:00 PM</option>
+                                </select>
+                                <div
+                                    class="error-message"
+                                    id="time-error"
+                                ></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="guests">Number of Guests *</label>
+                            <select id="guests" required>
+                                <option value="">Select Guests</option>
+                                <option value="1">1 Guest</option>
+                                <option value="2">2 Guests</option>
+                                <option value="3">3 Guests</option>
+                                <option value="4">4 Guests</option>
+                                <option value="5">5 Guests</option>
+                                <option value="6">6 Guests</option>
+                                <option value="7">7 Guests</option>
+                                <option value="8">8 Guests</option>
+                                <option value="9">9+ Guests</option>
+                            </select>
+                            <div class="error-message" id="guests-error"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="special-requests"
+                                >Special Requests (Optional)</label
+                            >
+                            <textarea
+                                id="special-requests"
+                                placeholder="Any special requests or dietary requirements..."
+                            ></textarea>
+                        </div>
+
+                        <div class="error-message" id="form-error"></div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary btn-full"
+                            id="reservation-btn"
+                        >
+                            <span id="reservation-text">Make Reservation</span>
+                            <i
+                                class="fas fa-spinner fa-spin"
+                                id="reservation-spinner"
+                                style="display: none"
+                            ></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="reservation-info">
+                <div class="info-card">
+                    <h3>Restaurant Hours</h3>
+                    <div class="hours-list">
+                        <div class="hour-item">
+                            <span>Monday - Thursday</span>
+                            <span>11:00 AM - 10:00 PM</span>
+                        </div>
+                        <div class="hour-item">
+                            <span>Friday - Saturday</span>
+                            <span>11:00 AM - 11:00 PM</span>
+                        </div>
+                        <div class="hour-item">
+                            <span>Sunday</span>
+                            <span>12:00 PM - 9:00 PM</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>Contact Information</h3>
+                    <div class="contact-list">
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+1 (555) 123-4567</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>reservations@savory.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>123 Restaurant Street, Food City</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>Reservation Policy</h3>
+                    <ul class="policy-list">
+                        <li>
+                            Reservations can be made up to 30 days in advance
+                        </li>
+                        <li>
+                            Please arrive within 15 minutes of your reservation
+                            time
+                        </li>
+                        <li>
+                            For parties of 8 or more, please call us directly
+                        </li>
+                        <li>
+                            Cancellations must be made at least 2 hours in
+                            advance
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Success Modal -->
+<div class="modal" id="reservation-success-modal">
+    <div class="modal-content">
+        <div class="modal-body">
+            <i class="fas fa-check-circle success-icon"></i>
+            <h3>Reservation Confirmed!</h3>
+            <p>Your table has been reserved successfully.</p>
+            <p>
+                <strong>Reservation ID:</strong>
+                <span id="reservation-id"></span>
+            </p>
+            <div class="modal-actions">
+                <a href="{{ url_for('index') }}" class="btn btn-secondary"
+                    >Back to Home</a
+                >
+                <a href="{{ url_for('menu') }}" class="btn btn-primary"
+                    >View Menu</a
+                >
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} {% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/reservations.js') }}"></script>
+{% endblock %}

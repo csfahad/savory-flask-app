@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Savory Restaurant{% endblock %}
+
+{% block body_class %}class="auth-page"{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-header">
+        <a href="{{ url_for('index') }}" class="auth-logo">
+            <i class="fas fa-utensils"></i>
+            <span>Savory</span>
+        </a>
+    </div>
+
+    <div class="auth-form-container">
+        <div class="auth-form">
+            <h2>Create your account</h2>
+            <p>Already have an account? <a href="{{ url_for('login_page') }}">Sign in</a></p>
+
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" required>
+                    <div class="error-message" id="name-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" id="email" required>
+                    <div class="error-message" id="email-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number (Optional)</label>
+                    <input type="tel" id="phone">
+                    <div class="error-message" id="phone-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-input">
+                        <input type="password" id="password" required minlength="6">
+                        <button type="button" class="password-toggle" id="password-toggle">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="error-message" id="password-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <div class="password-input">
+                        <input type="password" id="confirm-password" required>
+                        <button type="button" class="password-toggle" id="confirm-password-toggle">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="error-message" id="confirm-password-error"></div>
+                </div>
+
+                <div class="error-message" id="form-error"></div>
+
+                <button type="submit" class="btn btn-primary btn-full" id="register-btn">
+                    <span id="register-text">Create account</span>
+                    <i class="fas fa-spinner fa-spin" id="register-spinner" style="display: none;"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const registerForm = document.getElementById('register-form');
+    const passwordToggles = document.querySelectorAll('.password-toggle');
+
+    // Password toggle functionality
+    passwordToggles.forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            const passwordInput = this.previousElementSibling;
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+        });
+    });
+
+    // Handle form submission
+    registerForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+        
+        // Clear previous errors
+        clearErrors();
+        
+        // Validation
+        if (!name || !email || !password || !confirmPassword) {
+            showError('form-error', 'Please fill in all required fields');
+            return;
+        }
+        
+        if (password !== confirmPassword) {
+            showError('confirm-password-error', 'Passwords do not match');
+            return;
+        }
+        
+        if (password.length < 6) {
+            showError('password-error', 'Password must be at least 6 characters long');
+            return;
+        }
+        
+        // Show loading state
+        setLoading(true);
+        
+        try {
+            const response = await fetch('/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, email, phone, password })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                // Store auth data
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                
+                // Show success message
+                showSuccess('Registration successful! Redirecting...');
+                
+                // Redirect to home page
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1500);
+            } else {
+                showError('form-error', data.error || 'Registration failed');
+            }
+        } catch (error) {
+            console.error('Registration error:', error);
+            showError('form-error', 'Network error. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    });
+    
+    function clearErrors() {
+        const errorElements = document.querySelectorAll('.error-message');
+        errorElements.forEach(el => {
+            el.textContent = '';
+            el.style.color = '';
+        });
+    }
+    
+    function showError(elementId, message) {
+        document.getElementById(elementId).textContent = message;
+    }
+    
+    function showSuccess(message) {
+        const formError = document.getElementById('form-error');
+        formError.textContent = message;
+        formError.style.color = 'var(--success-color)';
+    }
+    
+    function setLoading(loading) {
+        const registerBtn = document.getElementById('register-btn');
+        const registerText = document.getElementById('register-text');
+        const registerSpinner = document.getElementById('register-spinner');
+        
+        registerBtn.disabled = loading;
+        registerText.style.display = loading ? 'none' : 'inline';
+        registerSpinner.style.display = loading ? 'inline-block' : 'none';
+    }
+});
+</script>
+{% endblock %}

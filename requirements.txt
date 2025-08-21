@@ -1,0 +1,16 @@
+bcrypt==4.0.1
+blinker==1.9.0
+click==8.1.8
+dnspython==2.7.0
+Flask==2.3.3
+Flask-Cors==4.0.0
+Flask-PyMongo==2.3.0
+importlib_metadata==8.7.0
+itsdangerous==2.2.0
+Jinja2==3.1.6
+MarkupSafe==3.0.2
+PyJWT==2.8.0
+pymongo==4.5.0
+python-dotenv==1.0.0
+Werkzeug==2.3.7
+zipp==3.23.0

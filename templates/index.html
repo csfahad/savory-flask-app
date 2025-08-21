@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Savory Restaurant{% endblock %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Welcome to Savory</h1>
+                <p class="hero-description">
+                    Experience exceptional dining with our carefully curated menu, featuring 
+                    fresh ingredients and innovative flavors that will delight your senses.
+                </p>
+                <div class="hero-buttons">
+                    <a href="{{ url_for('menu') }}" class="btn btn-primary">View Menu</a>
+                    <a href="{{ url_for('reservations') }}" class="btn btn-secondary">Make Reservation</a>
+                </div>
+            </div>
+        </div>
+        <div class="hero-overlay"></div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Choose Savory?</h2>
+                <p>We're committed to providing an exceptional dining experience through quality food, outstanding service, and a warm, welcoming atmosphere.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>Expert Chefs</h3>
+                    <p>Our experienced chefs create culinary masterpieces using the finest ingredients.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Fast Service</h3>
+                    <p>Quick and efficient service without compromising on quality and taste.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Quality Guaranteed</h3>
+                    <p>We maintain the highest standards of quality in every dish we serve.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Dishes Section -->
+    <section class="popular-dishes">
+        <div class="container">
+            <div class="section-header">
+                <h2>Popular Dishes</h2>
+                <p>Try our most loved dishes, crafted with passion and expertise.</p>
+            </div>
+            
+            <div class="dishes-grid" id="popular-dishes">
+                <!-- Popular dishes will be loaded here by JavaScript -->
+            </div>
+            
+            <div class="section-footer">
+                <a href="{{ url_for('menu') }}" class="btn btn-primary">View Full Menu</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section class="location">
+        <div class="container">
+            <div class="location-content">
+                <div class="location-info">
+                    <h2>Visit Our Restaurant</h2>
+                    <div class="location-details">
+                        <div class="location-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>123 Restaurant Street, Food City, FC 12345</span>
+                        </div>
+                        <div class="location-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <div>Mon - Thu: 11:00 AM - 10:00 PM</div>
+                                <div>Fri - Sat: 11:00 AM - 11:00 PM</div>
+                                <div>Sunday: 12:00 PM - 9:00 PM</div>
+                            </div>
+                        </div>
+                        <div class="location-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+1 (555) 123-4567</span>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('reservations') }}" class="btn btn-primary">Make a Reservation</a>
+                </div>
+                
+                <div class="location-map">
+                    <div class="map-placeholder">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>Interactive Map Coming Soon</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Load popular dishes on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        loadPopularDishes();
+    });
+
+    async function loadPopularDishes() {
+        try {
+            const response = await fetch('/api/menu/popular');
+            const dishes = await response.json();
+            
+            const dishesContainer = document.getElementById('popular-dishes');
+            
+            if (dishes.length === 0) {
+                dishesContainer.innerHTML = '<p class="no-dishes">No popular dishes available at the moment.</p>';
+                return;
+            }
+            
+            dishesContainer.innerHTML = dishes.map(dish => `
+                <div class="dish-card">
+                    <div class="dish-image">
+                        <img src="${dish.image || 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=600'}" 
+                             alt="${dish.name}" 
+                             onerror="this.src='https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=600'">
+                    </div>
+                    <div class="dish-info">
+                        <h3>${dish.name}</h3>
+                        <p class="dish-description">${dish.description}</p>
+                        <div class="dish-footer">
+                            <span class="dish-price">$${dish.price.toFixed(2)}</span>
+                            <button class="btn btn-primary btn-sm add-to-cart-btn" 
+                                    onclick="addToCart('${dish._id}', '${dish.name}', ${dish.price}, '${dish.image}')">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        } catch (error) {
+            console.error('Error loading popular dishes:', error);
+            document.getElementById('popular-dishes').innerHTML = '<p class="error">Failed to load dishes. Please try again later.</p>';
+        }
+    }
+</script>
+{% endblock %}
