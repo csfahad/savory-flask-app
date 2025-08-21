@@ -2,16 +2,16 @@
 
 class MenuManager {
     constructor() {
-        this.baseURL = '/api';
+        this.baseURL = "/api";
         this.menuItems = [];
         this.filteredItems = [];
-        this.currentCategory = 'all';
-        this.currentSearch = '';
+        this.currentCategory = "all";
+        this.currentSearch = "";
         this.init();
     }
 
     init() {
-        if (window.location.pathname === '/menu') {
+        if (window.location.pathname === "/menu") {
             this.setupEventListeners();
             this.loadMenuItems();
         }
@@ -19,46 +19,52 @@ class MenuManager {
 
     setupEventListeners() {
         // Search functionality
-        const searchInput = document.getElementById('search-input');
+        const searchInput = document.getElementById("search-input");
         if (searchInput) {
-            searchInput.addEventListener('input', 
+            searchInput.addEventListener(
+                "input",
                 this.debounce(this.handleSearch.bind(this), 300)
             );
         }
 
         // Category filter buttons
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        filterButtons.forEach(button => {
-            button.addEventListener('click', this.handleCategoryFilter.bind(this));
+        const filterButtons = document.querySelectorAll(".filter-btn");
+        filterButtons.forEach((button) => {
+            button.addEventListener(
+                "click",
+                this.handleCategoryFilter.bind(this)
+            );
         });
     }
 
     async loadMenuItems() {
-        const loadingSpinner = document.getElementById('loading-spinner');
-        const menuGrid = document.getElementById('menu-grid');
-        const noResults = document.getElementById('no-results');
+        const loadingSpinner = document.getElementById("loading-spinner");
+        const menuGrid = document.getElementById("menu-grid");
+        const noResults = document.getElementById("no-results");
 
         try {
             // Show loading state
-            if (loadingSpinner) loadingSpinner.style.display = 'flex';
-            if (menuGrid) menuGrid.style.display = 'none';
-            if (noResults) noResults.style.display = 'none';
+            if (loadingSpinner) loadingSpinner.style.display = "flex";
+            if (menuGrid) menuGrid.style.display = "none";
+            if (noResults) noResults.style.display = "none";
 
             const response = await fetch(`${this.baseURL}/menu`);
-            
+
             if (response.ok) {
                 this.menuItems = await response.json();
                 this.filteredItems = [...this.menuItems];
                 this.renderMenuItems();
             } else {
-                throw new Error('Failed to load menu items');
+                throw new Error("Failed to load menu items");
             }
         } catch (error) {
-            console.error('Error loading menu:', error);
-            this.showError('Failed to load menu items. Please try again later.');
+            console.error("Error loading menu:", error);
+            this.showError(
+                "Failed to load menu items. Please try again later."
+            );
         } finally {
-            if (loadingSpinner) loadingSpinner.style.display = 'none';
-            if (menuGrid) menuGrid.style.display = 'grid';
+            if (loadingSpinner) loadingSpinner.style.display = "none";
+            if (menuGrid) menuGrid.style.display = "grid";
         }
     }
 
@@ -69,10 +75,10 @@ class MenuManager {
 
     handleCategoryFilter(event) {
         // Update active button
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.classList.remove('active');
+        document.querySelectorAll(".filter-btn").forEach((btn) => {
+            btn.classList.remove("active");
         });
-        event.target.classList.add('active');
+        event.target.classList.add("active");
 
         // Update current category
         this.currentCategory = event.target.dataset.category;
@@ -80,12 +86,15 @@ class MenuManager {
     }
 
     filterItems() {
-        this.filteredItems = this.menuItems.filter(item => {
-            const matchesCategory = this.currentCategory === 'all' || item.category === this.currentCategory;
-            const matchesSearch = !this.currentSearch || 
+        this.filteredItems = this.menuItems.filter((item) => {
+            const matchesCategory =
+                this.currentCategory === "all" ||
+                item.category === this.currentCategory;
+            const matchesSearch =
+                !this.currentSearch ||
                 item.name.toLowerCase().includes(this.currentSearch) ||
                 item.description.toLowerCase().includes(this.currentSearch);
-            
+
             return matchesCategory && matchesSearch;
         });
 
@@ -93,32 +102,41 @@ class MenuManager {
     }
 
     renderMenuItems() {
-        const menuGrid = document.getElementById('menu-grid');
-        const noResults = document.getElementById('no-results');
+        const menuGrid = document.getElementById("menu-grid");
+        const noResults = document.getElementById("no-results");
 
         if (!menuGrid) return;
 
         if (this.filteredItems.length === 0) {
-            menuGrid.style.display = 'none';
-            if (noResults) noResults.style.display = 'block';
+            menuGrid.style.display = "none";
+            if (noResults) noResults.style.display = "block";
             return;
         }
 
-        if (noResults) noResults.style.display = 'none';
-        menuGrid.style.display = 'grid';
+        if (noResults) noResults.style.display = "none";
+        menuGrid.style.display = "grid";
 
-        menuGrid.innerHTML = this.filteredItems.map(item => `
+        menuGrid.innerHTML = this.filteredItems
+            .map(
+                (item) => `
             <div class="menu-item-card" data-item-id="${item._id}">
                 <div class="menu-item-image">
-                    <img src="${item.image || 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=600'}" 
+                    <img src="${
+                        item.image ||
+                        "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=600"
+                    }" 
                          alt="${item.name}" 
                          onerror="this.src='https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=600'">
-                    <div class="menu-item-category">${this.formatCategory(item.category)}</div>
+                    <div class="menu-item-category">${this.formatCategory(
+                        item.category
+                    )}</div>
                 </div>
                 <div class="menu-item-info">
                     <div class="menu-item-header">
                         <h3 class="menu-item-name">${item.name}</h3>
-                        <span class="menu-item-price">$${item.price.toFixed(2)}</span>
+                        <span class="menu-item-price">$${item.price.toFixed(
+                            2
+                        )}</span>
                     </div>
                     <p class="menu-item-description">${item.description}</p>
                     <div class="menu-item-actions">
@@ -136,31 +154,38 @@ class MenuManager {
                                 data-item-name="${item.name}"
                                 data-item-price="${item.price}"
                                 data-item-image="${item.image}"
-                                onclick="this.addToCartWithQuantity('${item._id}', '${item.name}', ${item.price}, '${item.image}')">
+				>
                             <i class="fas fa-cart-plus"></i>
                             Add to Cart
                         </button>
                     </div>
                 </div>
             </div>
-        `).join('');
+        `
+            )
+            .join("");
 
         // Add event listeners for add to cart buttons
         this.setupAddToCartButtons();
     }
 
     setupAddToCartButtons() {
-        const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
-        addToCartButtons.forEach(button => {
-            button.onclick = (e) => {
-                const card = e.target.closest('.menu-item-card');
-                const quantityInput = card.querySelector('.quantity-input');
+        const addToCartButtons = document.querySelectorAll(".add-to-cart-btn");
+
+        addToCartButtons.forEach((button) => {
+            // Remove any existing event listener
+            const newButton = button.cloneNode(true);
+            button.parentNode.replaceChild(newButton, button);
+
+            newButton.addEventListener("click", (e) => {
+                const card = e.target.closest(".menu-item-card");
+                const quantityInput = card.querySelector(".quantity-input");
                 const quantity = parseInt(quantityInput.value) || 1;
-                
-                const itemId = button.dataset.itemId;
-                const itemName = button.dataset.itemName;
-                const itemPrice = parseFloat(button.dataset.itemPrice);
-                const itemImage = button.dataset.itemImage;
+
+                const itemId = newButton.dataset.itemId;
+                const itemName = newButton.dataset.itemName;
+                const itemPrice = parseFloat(newButton.dataset.itemPrice);
+                const itemImage = newButton.dataset.itemImage;
 
                 // Add multiple items based on quantity
                 for (let i = 0; i < quantity; i++) {
@@ -170,7 +195,7 @@ class MenuManager {
                             name: itemName,
                             price: itemPrice,
                             image: itemImage,
-                            quantity: 1
+                            quantity: 1,
                         });
                     }
                 }
@@ -179,42 +204,43 @@ class MenuManager {
                 quantityInput.value = 1;
 
                 // Show success feedback
-                this.showAddToCartFeedback(button);
-            };
+                this.showAddToCartFeedback(newButton);
+            });
         });
     }
 
     showAddToCartFeedback(button) {
         const originalText = button.innerHTML;
         button.innerHTML = '<i class="fas fa-check"></i> Added!';
-        button.classList.add('btn-success');
+        button.classList.add("btn-success");
         button.disabled = true;
 
         setTimeout(() => {
             button.innerHTML = originalText;
-            button.classList.remove('btn-success');
+            button.classList.remove("btn-success");
             button.disabled = false;
         }, 1500);
 
         // Show modal if available
-        const modal = document.getElementById('add-to-cart-modal');
+        const modal = document.getElementById("add-to-cart-modal");
         if (modal && window.app) {
-            window.app.showModal('add-to-cart-modal');
+            window.app.showModal("add-to-cart-modal");
         }
     }
 
     formatCategory(category) {
-        return category.split('-').map(word => 
-            word.charAt(0).toUpperCase() + word.slice(1)
-        ).join(' ');
+        return category
+            .split("-")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
     }
 
     showError(message) {
-        const menuGrid = document.getElementById('menu-grid');
-        const loadingSpinner = document.getElementById('loading-spinner');
-        
-        if (loadingSpinner) loadingSpinner.style.display = 'none';
-        
+        const menuGrid = document.getElementById("menu-grid");
+        const loadingSpinner = document.getElementById("loading-spinner");
+
+        if (loadingSpinner) loadingSpinner.style.display = "none";
+
         if (menuGrid) {
             menuGrid.innerHTML = `
                 <div class="error-message">
@@ -226,7 +252,7 @@ class MenuManager {
                     </button>
                 </div>
             `;
-            menuGrid.style.display = 'block';
+            menuGrid.style.display = "block";
         }
     }
 
@@ -423,17 +449,25 @@ const menuStyles = `
 `;
 
 // Inject menu styles
-const menuStyleSheet = document.createElement('style');
+const menuStyleSheet = document.createElement("style");
 menuStyleSheet.textContent = menuStyles;
 document.head.appendChild(menuStyleSheet);
 
 // Initialize menu manager when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    window.menuManager = new MenuManager();
-});
+if (!window.menuManager) {
+    document.addEventListener("DOMContentLoaded", () => {
+        window.menuManager = new MenuManager();
+    });
+}
 
 // Global function for adding items to cart with quantity
-window.addToCartWithQuantity = function(itemId, name, price, image, quantity = 1) {
+window.addToCartWithQuantity = function (
+    itemId,
+    name,
+    price,
+    image,
+    quantity = 1
+) {
     if (window.cartManager) {
         for (let i = 0; i < quantity; i++) {
             window.cartManager.addItem({
@@ -441,7 +475,7 @@ window.addToCartWithQuantity = function(itemId, name, price, image, quantity = 1
                 name: name,
                 price: parseFloat(price),
                 image: image,
-                quantity: 1
+                quantity: 1,
             });
         }
     }
