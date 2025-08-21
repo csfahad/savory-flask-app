@@ -8,10 +8,6 @@ venv/
 ENV/
 .venv/
 .python-version
-.env
-.env.local
-.env.development
-.env.production
 
 # Flask-related files
 instance/
@@ -35,7 +31,9 @@ htmlcov/
 
 # Environment variable files (keep secrets out of git)
 .env
-.env.*
+.env.local
+.env.development
+.env.production
 
 # Jupyter Notebooks (if applicable)
 .ipynb_checkpoints/
