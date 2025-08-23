@@ -5,6 +5,14 @@
     box-sizing: border-box;
 }
 
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    box-sizing: border-box;
+}
+
 :root {
     /* Color Palette */
     --primary-color: #f97316;
@@ -988,24 +996,23 @@ a:hover {
     display: block;
 }
 
-/* Auth Pages */
 .auth-page {
-    background: linear-gradient(
-        135deg,
-        var(--primary-color),
-        var(--secondary-color)
-    );
+    display: flex;
+    /* align-items: center;
+    justify-content: center; */
+    flex-direction: column;
     min-height: 100vh;
+    background-color: #f9fafb;
+}
+
+/* Container for the form content */
+.auth-container {
+    margin-top: 6rem;
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--spacing-xl) 0;
-}
-
-.auth-container {
-    width: 100%;
-    max-width: 400px;
-    padding: var(--spacing-xl);
+    padding: 3rem;
 }
 
 .auth-header {
@@ -1039,6 +1046,7 @@ a:hover {
     padding: var(--spacing-2xl);
     box-shadow: var(--shadow-xl);
     width: 100%;
+    box-sizing: border-box;
 }
 
 .auth-form h2 {
@@ -1058,6 +1066,11 @@ a:hover {
     font-weight: var(--font-weight-medium);
 }
 
+.auth-form button {
+    padding: var(--spacing-md) var(--spacing-lg);
+}
+
+/* Demo credentials box */
 .demo-credentials {
     margin-top: var(--spacing-xl);
     padding: var(--spacing-md);
@@ -1076,6 +1089,7 @@ a:hover {
     font-size: 0.75rem;
     margin: var(--spacing-xs) 0;
     color: var(--gray-600);
+    cursor: pointer;
 }
 
 /* Modal Styles */
@@ -1171,7 +1185,9 @@ a:hover {
 .footer {
     background-color: var(--gray-800);
     color: var(--gray-300);
-    padding: var(--spacing-3xl) 0 var(--spacing-xl);
+    width: 100%;
+    padding: 2rem;
+    box-sizing: border-box;
 }
 
 .footer-content {
