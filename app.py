@@ -485,6 +485,34 @@ def update_reservation_status(current_user, reservation_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/change-password', methods=['PUT'])
+@token_required
+def change_password(current_user):
+    try:
+        data = request.get_json()
+        
+        current_password = data.get('currentPassword')
+        new_password = data.get('newPassword')
+        
+        if not current_password or not new_password:
+            return jsonify({'error': 'Current and new passwords are required'}), 400
+        
+        # Verify current password
+        if not check_password_hash(current_user['password'], current_password):
+            return jsonify({'error': 'Current password is incorrect'}), 401
+        
+        # Hash and update new password
+        hashed_new_password = generate_password_hash(new_password)
+        mongo.db.users.update_one(
+            {'_id': current_user['_id']},
+            {'$set': {'password': hashed_new_password}}
+        )
+        
+        return jsonify({'message': 'Password changed successfully'}), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 # Profile Routes
 @app.route('/api/profile', methods=['GET'])
 @token_required
