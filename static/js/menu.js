@@ -169,44 +169,87 @@ class MenuManager {
         this.setupAddToCartButtons();
     }
 
+    // setupAddToCartButtons() {
+    //     const addToCartButtons = document.querySelectorAll(".add-to-cart-btn");
+
+    //     addToCartButtons.forEach((button) => {
+    //         // Remove any existing event listener
+    //         const newButton = button.cloneNode(true);
+    //         button.parentNode.replaceChild(newButton, button);
+
+    //         newButton.addEventListener("click", (e) => {
+    //             e.preventDefault();
+
+    //             const card = e.target.closest(".menu-item-card");
+    //             const quantityInput = card.querySelector(".quantity-input");
+    //             const quantity = parseInt(quantityInput.value) || 1;
+
+    //             const itemId = newButton.dataset.itemId;
+    //             const itemName = newButton.dataset.itemName;
+    //             const itemPrice = parseFloat(newButton.dataset.itemPrice);
+    //             const itemImage = newButton.dataset.itemImage;
+
+    //             // Add item with the specified quantity
+    //             if (window.cartManager) {
+    //                 window.cartManager.addItem({
+    //                     id: itemId,
+    //                     name: itemName,
+    //                     price: itemPrice,
+    //                     image: itemImage,
+    //                     quantity: quantity,
+    //                 });
+    //             }
+
+    //             // Reset quantity to 1
+    //             quantityInput.value = 1;
+
+    //             // Show success feedback
+    //             this.showAddToCartFeedback(newButton);
+    //         });
+    //     });
+    // }
+
     setupAddToCartButtons() {
-        const addToCartButtons = document.querySelectorAll(".add-to-cart-btn");
+        const menuGrid = document.getElementById("menu-grid");
 
-        addToCartButtons.forEach((button) => {
-            // Remove any existing event listener
-            const newButton = button.cloneNode(true);
-            button.parentNode.replaceChild(newButton, button);
+        if (!menuGrid) return;
 
-            newButton.addEventListener("click", (e) => {
-                e.preventDefault();
+        // Remove any previous listener to avoid multiple bindings
+        menuGrid.removeEventListener("click", this.handleAddToCartDelegated);
 
-                const card = e.target.closest(".menu-item-card");
-                const quantityInput = card.querySelector(".quantity-input");
-                const quantity = parseInt(quantityInput.value) || 1;
+        // Define the delegated handler as a class method to support removal
+        this.handleAddToCartDelegated = (e) => {
+            const btn = e.target.closest(".add-to-cart-btn");
+            if (!btn || !menuGrid.contains(btn)) return;
 
-                const itemId = newButton.dataset.itemId;
-                const itemName = newButton.dataset.itemName;
-                const itemPrice = parseFloat(newButton.dataset.itemPrice);
-                const itemImage = newButton.dataset.itemImage;
+            e.preventDefault();
+            e.stopPropagation();
 
-                // Add item with the specified quantity
-                if (window.cartManager) {
-                    window.cartManager.addItem({
-                        id: itemId,
-                        name: itemName,
-                        price: itemPrice,
-                        image: itemImage,
-                        quantity: quantity,
-                    });
-                }
+            const card = btn.closest(".menu-item-card");
+            const quantityInput = card.querySelector(".quantity-input");
+            const quantity = parseInt(quantityInput.value) || 1;
 
-                // Reset quantity to 1
-                quantityInput.value = 1;
+            const itemId = btn.dataset.itemId;
+            const itemName = btn.dataset.itemName;
+            const itemPrice = parseFloat(btn.dataset.itemPrice);
+            const itemImage = btn.dataset.itemImage;
 
-                // Show success feedback
-                this.showAddToCartFeedback(newButton);
-            });
-        });
+            if (window.cartManager) {
+                window.cartManager.addItem({
+                    id: itemId,
+                    name: itemName,
+                    price: itemPrice,
+                    image: itemImage,
+                    quantity: quantity,
+                });
+            }
+
+            quantityInput.value = 1;
+            this.showAddToCartFeedback(btn);
+        };
+
+        // Attach the new single delegated listener
+        menuGrid.addEventListener("click", this.handleAddToCartDelegated);
     }
 
     showAddToCartFeedback(button) {
