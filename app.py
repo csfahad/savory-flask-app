@@ -593,7 +593,7 @@ def init_sample_data():
             '_id': admin_id,
             'name': 'Admin User',
             'email': 'admin@savory.com',
-            'password': generate_password_hash('admin123'),
+            'password': generate_password_hash('savory@admin'),
             'phone': '+1234567890',
             'role': 'admin',
             'created_at': datetime.utcnow()
@@ -603,9 +603,9 @@ def init_sample_data():
         customer_id = str(uuid.uuid4())
         customer_user = {
             '_id': customer_id,
-            'name': 'John Customer',
-            'email': 'customer@savory.com',
-            'password': generate_password_hash('customer123'),
+            'name': 'User',
+            'email': 'user@savory.com',
+            'password': generate_password_hash('savory@user'),
             'phone': '+1234567891',
             'role': 'customer',
             'created_at': datetime.utcnow()
@@ -614,7 +614,7 @@ def init_sample_data():
         # Insert users if they don't exist
         if not mongo.db.users.find_one({'email': 'admin@savory.com'}):
             mongo.db.users.insert_one(admin_user)
-        if not mongo.db.users.find_one({'email': 'customer@savory.com'}):
+        if not mongo.db.users.find_one({'email': 'user@savory.com'}):
             mongo.db.users.insert_one(customer_user)
         
         # Sample menu items

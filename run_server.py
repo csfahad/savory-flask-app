@@ -21,8 +21,8 @@ if __name__ == "__main__":
     print(f"Debug mode: {debug}")
     print(f"Server: http://{host}:{port}")
     print("\nDemo Credentials:")
-    print("Admin: admin@savory.com / admin123")
-    print("Customer: customer@savory.com / customer123")
+    print("Admin: admin@savory.com / savory@admin")
+    print("Customer: user@savory.com / savory@user")
     print("\nPress Ctrl+C to stop the server")
     
     try:

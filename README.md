@@ -252,12 +252,12 @@ restaurant-management-system/
 ### Admin Account
 
 -   **Email**: admin@savory.com
--   **Password**: admin123
+-   **Password**: savory@admin
 
 ### Customer Account
 
--   **Email**: customer@savory.com
--   **Password**: customer123
+-   **Email**: user@savory.com
+-   **Password**: savory@user
 
 ## Design Features
 

@@ -495,10 +495,10 @@ document.addEventListener("DOMContentLoaded", () => {
 function fillDemoCredentials(type) {
     if (type === "admin") {
         document.getElementById("email").value = "admin@savory.com";
-        document.getElementById("password").value = "admin123";
+        document.getElementById("password").value = "savory@admin";
     } else if (type === "customer") {
-        document.getElementById("email").value = "customer@savory.com";
-        document.getElementById("password").value = "customer123";
+        document.getElementById("email").value = "user@savory.com";
+        document.getElementById("password").value = "savory@user";
     }
 }
 
