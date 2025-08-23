@@ -823,3 +823,38 @@
         border: 1px solid #e5e7eb;
     }
 }
+
+@media (max-width: 600px) {
+    .item-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .item-quantity,
+    .item-total {
+        text-align: left;
+        min-width: auto;
+    }
+    .order-details-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 600px) {
+    .detail-row {
+        flex-wrap: nowrap !important; /* prevent forced wrapping */
+    }
+
+    .detail-row strong {
+        /* keep label size minimal, but fixed on one line */
+        white-space: nowrap !important;
+        min-width: max-content !important;
+        margin-right: 8px !important;
+    }
+
+    .detail-row span {
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+        white-space: normal !important; /* allow wrap */
+    }
+}
