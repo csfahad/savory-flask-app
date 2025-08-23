@@ -136,6 +136,14 @@ a:hover {
     padding: 0 var(--spacing-md);
 }
 
+/* Navigation Container Fix */
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-md) 0;
+}
+
 /* Button Styles */
 .btn {
     display: inline-flex;
@@ -226,13 +234,6 @@ a:hover {
     backdrop-filter: blur(10px);
 }
 
-.nav-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--spacing-md) 0;
-}
-
 .nav-logo {
     display: flex;
     align-items: center;
@@ -240,6 +241,12 @@ a:hover {
     font-size: 1.5rem;
     font-weight: var(--font-weight-bold);
     color: var(--primary-color);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.nav-logo:hover {
+    color: var(--primary-hover);
 }
 
 .nav-logo i {
@@ -992,6 +999,7 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: var(--spacing-xl) 0;
 }
 
 .auth-container {
@@ -1013,6 +1021,12 @@ a:hover {
     font-weight: var(--font-weight-bold);
     color: white;
     text-decoration: none;
+    transition: opacity var(--transition-fast);
+}
+
+.auth-logo:hover {
+    opacity: 0.8;
+    color: white;
 }
 
 .auth-logo i {
@@ -1024,6 +1038,7 @@ a:hover {
     border-radius: var(--border-radius-xl);
     padding: var(--spacing-2xl);
     box-shadow: var(--shadow-xl);
+    width: 100%;
 }
 
 .auth-form h2 {
@@ -1091,6 +1106,7 @@ a:hover {
     overflow-y: auto;
     position: relative;
     animation: modalSlideIn 0.3s ease-out;
+    margin: var(--spacing-md);
 }
 
 @keyframes modalSlideIn {
@@ -1120,6 +1136,7 @@ a:hover {
     justify-content: center;
     border-radius: 50%;
     transition: all var(--transition-fast);
+    z-index: 10;
 }
 
 .modal-close:hover {
@@ -1147,6 +1164,7 @@ a:hover {
     gap: var(--spacing-md);
     justify-content: center;
     margin-top: var(--spacing-xl);
+    flex-wrap: wrap;
 }
 
 /* Footer */
@@ -1321,6 +1339,7 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-top: var(--spacing-2xl);
     margin-bottom: var(--spacing-lg);
 }
 
@@ -1377,6 +1396,7 @@ a:hover {
     text-align: center;
     padding: var(--spacing-3xl);
     color: var(--gray-500);
+    margin-top: var(--spacing-2xl);
 }
 
 .empty-cart i {
@@ -1449,6 +1469,7 @@ a:hover {
     padding: var(--spacing-2xl);
     border-radius: var(--border-radius-xl);
     box-shadow: var(--shadow-lg);
+    margin-bottom: var(--spacing-lg);
 }
 
 .form-card h2 {
@@ -1788,6 +1809,10 @@ a:hover {
     padding: var(--spacing-lg);
     background-color: var(--gray-50);
     border-bottom: 1px solid var(--gray-200);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--spacing-md);
 }
 
 .order-info h3 {
@@ -1829,11 +1854,13 @@ a:hover {
 .item-name {
     font-weight: var(--font-weight-medium);
     color: var(--gray-800);
+    flex: 1;
 }
 
 .item-quantity {
     color: var(--gray-600);
     font-size: 0.875rem;
+    margin: 0 var(--spacing-md);
 }
 
 .item-price {
@@ -1876,6 +1903,7 @@ a:hover {
     display: flex;
     gap: var(--spacing-md);
     justify-content: flex-end;
+    flex-wrap: wrap;
 }
 
 .empty-orders {
@@ -1893,6 +1921,157 @@ a:hover {
 .empty-orders h3 {
     margin-bottom: var(--spacing-md);
     color: var(--gray-600);
+}
+
+/* Order Details Modal Styles */
+.order-details,
+.reservation-details {
+    max-width: 600px;
+    text-align: left;
+}
+
+.order-details-header,
+.reservation-details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 2px solid var(--gray-200);
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+.order-customer-info,
+.reservation-customer-info,
+.order-details-info,
+.reservation-details-info {
+    margin-bottom: var(--spacing-xl);
+}
+
+.order-customer-info h4,
+.reservation-customer-info h4,
+.order-details-info h4,
+.reservation-details-info h4 {
+    margin-bottom: var(--spacing-md);
+    color: var(--primary-color);
+    font-size: 1.125rem;
+}
+
+.customer-details,
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--gray-200);
+    gap: var(--spacing-md);
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-row strong {
+    color: var(--gray-700);
+    min-width: 120px;
+    flex-shrink: 0;
+}
+
+.detail-row span {
+    color: var(--gray-600);
+    flex: 1;
+    text-align: right;
+}
+
+.order-items-detailed {
+    margin-bottom: var(--spacing-xl);
+}
+
+.order-items-detailed h4 {
+    margin-bottom: var(--spacing-md);
+    color: var(--primary-color);
+}
+
+.items-table {
+    background-color: var(--gray-50);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+}
+
+.item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--gray-200);
+    gap: var(--spacing-md);
+}
+
+.item-row:last-child {
+    border-bottom: none;
+}
+
+.item-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.item-name {
+    font-weight: var(--font-weight-semibold);
+    color: var(--gray-800);
+}
+
+.item-price {
+    color: var(--gray-600);
+    font-size: 0.875rem;
+}
+
+.item-quantity {
+    color: var(--gray-700);
+    font-weight: var(--font-weight-medium);
+    min-width: 60px;
+    text-align: center;
+}
+
+.item-total {
+    font-weight: var(--font-weight-semibold);
+    color: var(--primary-color);
+    min-width: 80px;
+    text-align: right;
+}
+
+.order-total-breakdown {
+    background-color: var(--gray-50);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+}
+
+.breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm) 0;
+    color: var(--gray-600);
+}
+
+.breakdown-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md) 0;
+    border-top: 2px solid var(--gray-300);
+    font-size: 1.125rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--gray-800);
+}
+
+.warning-icon {
+    color: var(--warning-color);
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
 }
 
 /* Contact Page Styles */
@@ -2184,11 +2363,13 @@ a:hover {
     border-radius: var(--border-radius-xl);
     box-shadow: var(--shadow-lg);
     overflow: hidden;
+    overflow-x: auto;
 }
 
 .admin-table {
     width: 100%;
     border-collapse: collapse;
+    min-width: 800px;
 }
 
 .admin-table th {
@@ -2198,6 +2379,7 @@ a:hover {
     font-weight: var(--font-weight-semibold);
     color: var(--gray-700);
     border-bottom: 2px solid var(--gray-200);
+    white-space: nowrap;
 }
 
 .admin-table td {
@@ -2290,6 +2472,7 @@ a:hover {
 .actions-cell {
     display: flex;
     gap: var(--spacing-sm);
+    flex-wrap: wrap;
 }
 
 .btn-danger {
@@ -2347,144 +2530,6 @@ a:hover {
     font-family: monospace;
     font-weight: var(--font-weight-semibold);
     color: var(--primary-color);
-}
-
-/* Modal Enhancements for Admin */
-.order-details,
-.reservation-details {
-    max-width: 600px;
-}
-
-.order-details-header,
-.reservation-details-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--spacing-xl);
-    padding-bottom: var(--spacing-lg);
-    border-bottom: 2px solid var(--gray-200);
-}
-
-.order-customer-info,
-.reservation-customer-info,
-.order-details-info,
-.reservation-details-info {
-    margin-bottom: var(--spacing-xl);
-}
-
-.order-customer-info h4,
-.reservation-customer-info h4,
-.order-details-info h4,
-.reservation-details-info h4 {
-    margin-bottom: var(--spacing-md);
-    color: var(--primary-color);
-    font-size: 1.125rem;
-}
-
-.customer-details,
-.detail-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--spacing-sm) 0;
-    border-bottom: 1px solid var(--gray-200);
-}
-
-.detail-row:last-child {
-    border-bottom: none;
-}
-
-.detail-row strong {
-    color: var(--gray-700);
-}
-
-.detail-row span {
-    color: var(--gray-600);
-}
-
-.order-items-detailed {
-    margin-bottom: var(--spacing-xl);
-}
-
-.order-items-detailed h4 {
-    margin-bottom: var(--spacing-md);
-    color: var(--primary-color);
-}
-
-.items-table {
-    background-color: var(--gray-50);
-    border-radius: var(--border-radius-md);
-    padding: var(--spacing-md);
-}
-
-.item-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--spacing-sm) 0;
-    border-bottom: 1px solid var(--gray-200);
-}
-
-.item-row:last-child {
-    border-bottom: none;
-}
-
-.item-details {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xs);
-}
-
-.item-name {
-    font-weight: var(--font-weight-semibold);
-    color: var(--gray-800);
-}
-
-.item-price {
-    color: var(--gray-600);
-    font-size: 0.875rem;
-}
-
-.item-quantity {
-    color: var(--gray-700);
-    font-weight: var(--font-weight-medium);
-}
-
-.item-total {
-    font-weight: var(--font-weight-semibold);
-    color: var(--primary-color);
-}
-
-.order-total-breakdown {
-    background-color: var(--gray-50);
-    padding: var(--spacing-lg);
-    border-radius: var(--border-radius-md);
-}
-
-.breakdown-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--spacing-sm) 0;
-    color: var(--gray-600);
-}
-
-.breakdown-total {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--spacing-md) 0;
-    border-top: 2px solid var(--gray-300);
-    font-size: 1.125rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--gray-800);
-}
-
-.warning-icon {
-    color: var(--warning-color);
-    font-size: 3rem;
-    margin-bottom: var(--spacing-md);
 }
 
 /* Checkbox Styles */

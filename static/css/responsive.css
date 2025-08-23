@@ -16,6 +16,23 @@
         padding: 0 var(--spacing-md);
     }
 
+    /* Auth page responsive */
+    .auth-container {
+        padding: var(--spacing-md);
+    }
+
+    .auth-form-container {
+        padding: var(--spacing-lg);
+    }
+
+    .auth-logo {
+        font-size: 1.5rem;
+    }
+
+    .auth-logo i {
+        font-size: 2rem;
+    }
+
     /* Typography adjustments */
     h1 {
         font-size: 2rem;
@@ -184,6 +201,7 @@
     .modal-content {
         width: 95%;
         margin: var(--spacing-md);
+        max-width: none;
     }
 
     .modal-body {
@@ -193,6 +211,45 @@
     .modal-actions {
         flex-direction: column;
         gap: var(--spacing-sm);
+    }
+
+    /* Order Details Modal */
+    .order-details,
+    .reservation-details {
+        max-width: none;
+    }
+
+    .order-details-header,
+    .reservation-details-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-md);
+    }
+
+    .detail-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-xs);
+    }
+
+    .detail-row strong {
+        min-width: auto;
+    }
+
+    .detail-row span {
+        text-align: left;
+    }
+
+    .item-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-sm);
+    }
+
+    .item-quantity,
+    .item-total {
+        min-width: auto;
+        text-align: left;
     }
 
     /* Footer */
@@ -316,6 +373,17 @@
     .filter-btn {
         white-space: nowrap;
         flex-shrink: 0;
+    }
+
+    /* Orders responsive */
+    .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-sm);
+    }
+
+    .order-footer {
+        justify-content: center;
     }
 
     /* Cart and Tables */

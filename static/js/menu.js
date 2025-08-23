@@ -178,6 +178,8 @@ class MenuManager {
             button.parentNode.replaceChild(newButton, button);
 
             newButton.addEventListener("click", (e) => {
+                e.preventDefault();
+
                 const card = e.target.closest(".menu-item-card");
                 const quantityInput = card.querySelector(".quantity-input");
                 const quantity = parseInt(quantityInput.value) || 1;
@@ -187,17 +189,15 @@ class MenuManager {
                 const itemPrice = parseFloat(newButton.dataset.itemPrice);
                 const itemImage = newButton.dataset.itemImage;
 
-                // Add multiple items based on quantity
-                for (let i = 0; i < quantity; i++) {
-                    if (window.cartManager) {
-                        window.cartManager.addItem({
-                            id: itemId,
-                            name: itemName,
-                            price: itemPrice,
-                            image: itemImage,
-                            quantity: 1,
-                        });
-                    }
+                // Add item with the specified quantity
+                if (window.cartManager) {
+                    window.cartManager.addItem({
+                        id: itemId,
+                        name: itemName,
+                        price: itemPrice,
+                        image: itemImage,
+                        quantity: quantity,
+                    });
                 }
 
                 // Reset quantity to 1
