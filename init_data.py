@@ -38,7 +38,7 @@ def init_database():
         '_id': str(uuid.uuid4()),
         'name': 'Admin User',
         'email': 'admin@savory.com',
-        'password': generate_password_hash('admin123'),
+        'password': generate_password_hash('savory@admin'),
         'phone': '+1234567890',
         'role': 'admin',
         'created_at': datetime.utcnow()
@@ -46,13 +46,13 @@ def init_database():
     db.users.insert_one(admin_user)
     
     # Create sample customer
-    print("Creating sample customer...")
+    print("Creating sample user...")
     customer_user = {
         '_id': str(uuid.uuid4()),
-        'name': 'John Customer',
-        'email': 'customer@savory.com',
-        'password': generate_password_hash('customer123'),
-        'phone': '+1234567891',
+        'name': 'User',
+        'email': 'user@savory.com',
+        'password': generate_password_hash('savory@user'),
+        'phone': '+1234567890',
         'role': 'customer',
         'created_at': datetime.utcnow()
     }
@@ -209,9 +209,9 @@ def init_database():
     
     print("Database initialization completed successfully!")
     print("\nDemo Credentials:")
-    print("Admin: admin@savory.com / admin123")
-    print("Customer: customer@savory.com / customer123")
-    
+    print("Admin: admin@savory.com / savory@admin")
+    print("User: user@savory.com / savory@user")
+
     client.close()
 
 if __name__ == "__main__":

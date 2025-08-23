@@ -51,9 +51,11 @@
             <!-- Demo Credentials -->
             <div class="demo-credentials">
                 <h4>Demo Credentials:</h4>
-                <p><strong>Admin:</strong> admin@savory.com / admin123</p>
-                <p>
-                    <strong>Customer:</strong> customer@savory.com / customer123
+                <p id="fill-admin">
+                    <strong>Admin:</strong> admin@savory.com / savory@admin
+                </p>
+                <p id="fill-user">
+                    <strong>User:</strong> user@savory.com / savory@user
                 </p>
             </div>
         </div>
@@ -61,6 +63,23 @@
 </div>
 {% endblock %} {% block extra_scripts %}
 <script>
+    // Auto-fill demo credentials
+    document
+        .getElementById("fill-admin")
+        .addEventListener("click", function (e) {
+            e.preventDefault();
+            document.getElementById("email").value = "admin@savory.com";
+            document.getElementById("password").value = "savory@admin";
+        });
+
+    document
+        .getElementById("fill-user")
+        .addEventListener("click", function (e) {
+            e.preventDefault();
+            document.getElementById("email").value = "user@savory.com";
+            document.getElementById("password").value = "savory@user";
+        });
+
     document.addEventListener("DOMContentLoaded", function () {
         const loginForm = document.getElementById("login-form");
         const passwordToggle = document.getElementById("password-toggle");
