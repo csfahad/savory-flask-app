@@ -51,10 +51,30 @@
             <!-- Demo Credentials -->
             <div class="demo-credentials">
                 <h4>Demo Credentials:</h4>
-                <p id="fill-admin">
+                <p
+                    id="fill-admin"
+                    style="
+                        cursor: pointer;
+                        padding: 5px;
+                        border-radius: 3px;
+                        transition: background-color 0.2s;
+                    "
+                    onmouseover="this.style.backgroundColor='#f0f0f0'"
+                    onmouseout="this.style.backgroundColor='transparent'"
+                >
                     <strong>Admin:</strong> admin@savory.com / savory@admin
                 </p>
-                <p id="fill-user">
+                <p
+                    id="fill-user"
+                    style="
+                        cursor: pointer;
+                        padding: 5px;
+                        border-radius: 3px;
+                        transition: background-color 0.2s;
+                    "
+                    onmouseover="this.style.backgroundColor='#f0f0f0'"
+                    onmouseout="this.style.backgroundColor='transparent'"
+                >
                     <strong>User:</strong> user@savory.com / savory@user
                 </p>
             </div>
@@ -63,22 +83,49 @@
 </div>
 {% endblock %} {% block extra_scripts %}
 <script>
+    // Check if user is already logged in and redirect
+    function checkAuthAndRedirect() {
+        const token = localStorage.getItem("token");
+        const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+        if (token && user.id) {
+            // User is authenticated, redirect based on role
+            if (user.role === "admin") {
+                window.location.href = "/admin";
+            } else {
+                window.location.href = "/";
+            }
+            return true;
+        }
+        return false;
+    }
+
+    // Check immediately when page loads
+    (function () {
+        if (checkAuthAndRedirect()) {
+            return;
+        }
+    })();
+
     // Auto-fill demo credentials
-    document
-        .getElementById("fill-admin")
-        .addEventListener("click", function (e) {
+    const adminCredElement = document.getElementById("fill-admin");
+    const userCredElement = document.getElementById("fill-user");
+
+    if (adminCredElement) {
+        adminCredElement.addEventListener("click", function (e) {
             e.preventDefault();
             document.getElementById("email").value = "admin@savory.com";
             document.getElementById("password").value = "savory@admin";
         });
+    }
 
-    document
-        .getElementById("fill-user")
-        .addEventListener("click", function (e) {
+    if (userCredElement) {
+        userCredElement.addEventListener("click", function (e) {
             e.preventDefault();
             document.getElementById("email").value = "user@savory.com";
             document.getElementById("password").value = "savory@user";
         });
+    }
 
     document.addEventListener("DOMContentLoaded", function () {
         const loginForm = document.getElementById("login-form");
@@ -86,15 +133,18 @@
         const passwordInput = document.getElementById("password");
 
         // Password toggle functionality
-        passwordToggle.addEventListener("click", function () {
-            const type =
-                passwordInput.getAttribute("type") === "password"
-                    ? "text"
-                    : "password";
-            passwordInput.setAttribute("type", type);
-            const icon = passwordToggle.querySelector("i");
-            icon.classList.toggle("fa-eye");
-            icon.classList.toggle("fa-eye-slash");
+        passwordToggle.forEach((toggle) => {
+            toggle.addEventListener("click", function () {
+                const passwordInput = this.previousElementSibling;
+                const type =
+                    passwordInput.getAttribute("type") === "password"
+                        ? "text"
+                        : "password";
+                passwordInput.setAttribute("type", type);
+                const icon = this.querySelector("i");
+                icon.classList.toggle("fa-eye");
+                icon.classList.toggle("fa-eye-slash");
+            });
         });
 
         // Handle form submission

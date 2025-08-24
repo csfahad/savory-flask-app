@@ -9,6 +9,22 @@ class AuthManager {
     init() {
         this.checkAuthStatus();
         this.setupAuthForms();
+        this.handleAuthenticatedRoutes();
+    }
+
+    // method to handle authenticated route protection
+    handleAuthenticatedRoutes() {
+        const currentPath = window.location.pathname;
+        const authRoutes = ["/login", "/register"];
+
+        if (authRoutes.includes(currentPath) && this.isAuthenticated()) {
+            const user = this.getCurrentUser();
+            if (user.role === "admin") {
+                window.location.href = "/admin";
+            } else {
+                window.location.href = "/";
+            }
+        }
     }
 
     checkAuthStatus() {
@@ -16,8 +32,14 @@ class AuthManager {
         const user = JSON.parse(localStorage.getItem("user") || "{}");
 
         if (token && user.id) {
-            // Verify token is still valid
-            this.verifyToken(token);
+            // Only verify token if we're not on login/register pages
+            const currentPath = window.location.pathname;
+            const authPages = ["/login", "/register"];
+
+            if (!authPages.includes(currentPath)) {
+                // Verify token is still valid
+                this.verifyToken(token);
+            }
         }
     }
 
